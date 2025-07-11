@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InvoiceGenie</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <img src="assets/invoice genie logo.png" alt="InvoiceGenie - দোকানের ইনভয়েস সলিউশন" width="180"
+                    height="60" loading="lazy" style="max-width:100%; height:auto;">
+            </div>
+            <h3>পেশাদার ইনভয়েস তৈরি করুন সহজেই</h3>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-grid">
+            <!-- Shop Settings -->
+            <div class="settings-section">
+                <h2>দোকানের তথ্যসমূহ</h2>
+                <form id="shop-settings-form">
+                    <div class="form-group">
+                        <label for="shop-name">দোকানের নাম:</label>
+                        <input type="text" id="shop-name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="shop-logo">দোকানের লোগো:</label>
+                        <input type="file" id="shop-logo" accept="image/*">
+                        <div class="logo-preview-container">
+                            <img id="logo-preview" src="#" alt="লোগো প্রিভিউ">
+                        </div>
+                        <H5>(ভালো ফলাফলের জন্য 150×80 পিক্সেল সাইজ ব্যবহার করুন)</H5>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="shop-address">দোকানের ঠিকানা:</label>
+                        <textarea id="shop-address" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="shop-message">কাস্টম মেসেজ (ঐচ্ছিক):</label>
+                        <input type="text" id="shop-message" placeholder="যেমন: আমাদের সাথে কেনাকাটা করার জন্য ধন্যবাদ">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" id="reset-settings">রিসেট</button>
+                        <button type="submit">সেভ করুন</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Invoice Form -->
+            <div class="invoice-section">
+                <h2>ইনভয়েস তৈরি করুন</h2>
+                <form id="invoice-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="invoice-type">ইনভয়েস টাইপ:</label>
+                            <select id="invoice-type" required>
+                                <option value="sell">বিক্রয় ইনভয়েস</option>
+                                <option value="buy">ক্রয় ইনভয়েস</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="invoice-date">তারিখ:</label>
+                            <input type="date" id="invoice-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="invoice-number">ইনভয়েস নম্বর:</label>
+                            <input type="text" id="invoice-number" required placeholder="অটো জেনারেট হবে">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="customer-name">ক্রেতা/প্রদানকারীর নাম:</label>
+                            <input type="text" id="customer-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer-phone">ফোন নম্বর:</label>
+                            <input type="text" id="customer-phone">
+                        </div>
+                    </div>
+
+                    <div class="products-section">
+                        <h3>পণ্য তালিকা:</h3>
+                        <div class="table-container">
+                            <table id="product-table">
+                                <thead>
+                                    <tr>
+                                        <th>পণ্যের নাম</th>
+                                        <th>পরিমাণ</th>
+                                        <th>দর</th>
+                                        <th>মোট</th>
+                                        <th>অ্যাকশন</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- পণ্য রো ডাইনামিকভাবে যুক্ত হবে -->
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5">
+                                            <button type="button" id="add-product">+ পণ্য যোগ করুন</button>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="discount">ডিসকাউন্ট (৳):</label>
+                            <input type="number" min="0" id="discount" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="delivery-charge">ডেলিভারি চার্জ (৳):</label>
+                            <input type="number" min="0" id="delivery-charge" value="0">
+                        </div>
+                    </div>
+
+                    <div class="totals-section">
+                        <div class="total-row">
+                            <span>সাবটোটাল:</span>
+                            <span id="subtotal">৳০.০০</span>
+                        </div>
+                        <div class="total-row">
+                            <span>ডিসকাউন্ট:</span>
+                            <span id="discount-display">৳০.০০</span>
+                        </div>
+                        <div class="total-row">
+                            <span>ডেলিভারি চার্জ:</span>
+                            <span id="delivery-display">৳০.০০</span>
+                        </div>
+                        <div class="total-row grand-total">
+                            <span>সর্বমোট:</span>
+                            <span id="grand-total">৳০.০০</span>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" id="clear-invoice">পরিষ্কার করুন</button>
+                        <button type="button" id="generate-invoice">ইনভয়েস তৈরি করুন</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Invoice Preview Section -->
+        <section id="invoice-preview-section">
+            <div class="preview-header">
+                <h2>ইনভয়েস প্রিভিউ</h2>
+                <div class="preview-actions">
+                    <button id="print-invoice" class="no-print">প্রিন্ট করুন</button>
+                    <button id="export-pdf" class="no-print">PDF ডাউনলোড</button>
+                </div>
+            </div>
+
+            <div id="invoice-print"></div>
+        </section>
+
+        <!-- Success Message -->
+        <div id="success-message">
+            <div class="success-content">
+                <svg class="success-icon" viewBox="0 0 24 24">
+                    <path d="M5 13l4 4L19 7"></path>
+                </svg>
+                <h3>ইনভয়েস তৈরি সম্পন্ন হয়েছে!</h3>
+                <p>আপনার ইনভয়েস প্রস্তুত, এখন প্রিন্ট বা ডাউনলোড করতে পারেন।</p>
+                <button id="close-success">ঠিক আছে</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
